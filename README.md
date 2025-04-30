@@ -1,43 +1,55 @@
-# My Arduino Library
+# MirageXR Arduino Library
 
-## Overview
-MyArduinoLibrary is a simple Arduino library designed to provide essential functionalities for your Arduino projects. This library includes methods for initialization and updating, making it easy to integrate into your sketches.
+MirageXR is an Arduino library designed to interface with the [MirageXR Electrobits Core Unity package](https://github.com/rabeeqiblawi/miragexr_electrobits_core_unity). It enables seamless communication between Unity-based virtual electronics and real hardware, allowing you to control and monitor Arduino pins from your Unity applications in real time.
 
-## Installation
-To install MyArduinoLibrary, follow these steps:
-1. Download the library from the repository.
-2. Extract the contents to your Arduino libraries folder, typically located at `Documents/Arduino/libraries/`.
-3. Restart the Arduino IDE to recognize the new library.
+## Features
 
-## Usage
-To use MyArduinoLibrary in your Arduino sketch, include the header file at the beginning of your code:
+- Exposes digital, analog, and text-based pin values to Unity.
+- Supports up to 24 virtual pins.
+- Real-time bidirectional communication using WebSockets.
+- Simple API for pin mode, digital/analog/text read/write.
+- Broadcasts pin states to all connected Unity clients.
 
+## Requirements
+
+This library depends on the following Arduino libraries:
 ```cpp
-#include <MyArduinoLibrary.h>
+#include "Arduino.h"
+#include <WiFi.h>
+#include <ArduinoJson.h>
+#include <WebSocketsServer.h>
 ```
 
-### Example
-Here is a simple example of how to use MyArduinoLibrary:
+Make sure to install these libraries via the Arduino Library Manager or PlatformIO before using MirageXR.
 
+## Usage
+
+1. Clone or download this repository into your Arduino `libraries` folder.
+2. Include `miragexr.h` in your Arduino sketch.
+3. Instantiate the `MirageXR` class with your WiFi credentials and desired port.
+4. Call `start()` in `setup()` and `loop()` in your main `loop()` function.
+
+Example:
 ```cpp
-#include <MyArduinoLibrary.h>
+#include "miragexr.h"
 
-MyArduinoLibrary myLibrary;
+MirageXR mirage("your-ssid", "your-password", 8080);
 
 void setup() {
-    myLibrary.begin();
+  Serial.begin(115200);
+  mirage.start();
 }
 
 void loop() {
-    myLibrary.update();
+  mirage.loop();
+  // Your custom logic here
 }
 ```
 
-## Documentation
-For detailed documentation on the methods available in MyArduinoLibrary, please refer to the header file `MyArduinoLibrary.h`.
+## Unity Integration
 
-## Contributing
-If you would like to contribute to MyArduinoLibrary, please fork the repository and submit a pull request with your changes.
+To connect your Unity project, use the [MirageXR Electrobits Core Unity package](https://github.com/rabeeqiblawi/miragexr_electrobits_core_unity). This package provides the necessary scripts and components to communicate with your Arduino device running MirageXR.
 
 ## License
-This library is open-source and available under the MIT License.
+
+MIT License.
